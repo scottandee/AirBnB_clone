@@ -16,12 +16,13 @@ class TestClassAttributes(unittest.TestCase):
     def test_file_path_is_string(self):
         """This tests that __file_path class attribute
         is a string"""
-        self.assertEqual(type(type(storage).__file_path), str)
+        self.assertEqual(type((type(storage)).__file_path), str)
 
     def test_objects_is_dict(self):
         """This tests that __objects class attribute
         is a dictionary"""
-        self.assertEqual(type(type(storage).__objects), dict)
+        all_objs = storage.all()
+        self.assertEqual(type(all_objs), dict)
 
 
 class TestAll(unittest.TestCase):
