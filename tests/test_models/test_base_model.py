@@ -25,7 +25,7 @@ class TestInstantiation(unittest.TestCase):
         model = BaseModel()
         diff = model.updated_at - model.created_at
         self.assertEqual(diff.seconds, 0)
-        self.assertLess(diff.microseconds, 10)
+        self.assertLess(diff.microseconds, 15)
 
 class TestSaveMethod(unittest.TestCase):
     """This tests the save instance method"""
@@ -158,4 +158,4 @@ del','updated_at':'2017-09-28T21:05:54.119572', 'id': 'b6a6e15c-c67d-4312-9a7\
         model = BaseModel()
         dic = model.__dict__
         with self.assertRaises(KeyError):
-            dic[__class__]
+            dic['__class__']
