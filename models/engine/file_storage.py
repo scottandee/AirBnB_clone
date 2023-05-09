@@ -36,15 +36,11 @@ class FileStorage(object):
         """The save method serializes __objects to the JSON
         file (path: __file_path)
         """
-        for key in self.__objects.keys():
-            # 'IF' conditional is required in the case that we have reloaded
-            # from file. Reloading doesn't convert string format into obj
-            # (obj here refers to an object like the one passed into the
-            # save statement). Hence, avoiding the error of trying to convert a
-            # string into dictionary form (to_dict)
-            if type(self.__objects[key]) != dict:
-                self.__objects[key] = self.__objects[key].to_dict()
-        all_objs = json.dumps(self.__objects)
+
+        dic_copy = self.__objects.copy()
+        for key, value in dic_copy.items():
+            dic_copy[key] = value.to_dict()
+        all_objs = json.dumps(dic_copy)
 
         with open(self.__file_path, mode="w", encoding="utf-8") as f:
             f.write(all_objs)
@@ -54,9 +50,16 @@ class FileStorage(object):
         (only if the JSON file (__file_path) exists ; otherwise,
         do nothing. If the file doesn’t exist)
         """
-
+ 
         if os.path.exists(self.__file_path):
             with open(self.__file_path, encoding="utf-8") as f:
                 json_string = f.read()
 
             self.__objects = json.loads(json_string)
+            to_be_conv_to_obj = self.__objects.copy()
+
+            from models.base_model import BaseModel
+            for key, value in to_be_conv_to_obj.items():
+                to_be_conv_to_obj[key] = BaseModel(**value)
+
+            self.__objects = to_be_conv_to_obj.copy()
