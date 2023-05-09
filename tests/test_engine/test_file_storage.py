@@ -16,12 +16,12 @@ class TestClassAttributes(unittest.TestCase):
     def test_file_path_is_string(self):
         """This tests that __file_path class attribute
         is a string"""
-        self.assertEqual(type(storage.__file_path), str)
+        self.assertEqual(type(type(storage).__file_path), str)
 
     def test_objects_is_dict(self):
         """This tests that __objects class attribute
         is a dictionary"""
-        self.assertEqual(type(storage.__objects), dict)
+        self.assertEqual(type(type(storage).__objects), dict)
 
 
 class TestAll(unittest.TestCase):
@@ -64,7 +64,7 @@ class TestNew(unittest.TestCase):
         model1 = BaseModel()
         key1 = f"{type(model1).__name__}.{model1.id}"
         all_objs = storage.all()
-        test_key = {i for i in all_objs.items() if all_objs[i] == model1}
+        test_key = {i for i in all_objs if all_objs[i] == model1}
         self.assertTrue(key1 in test_key)
 
 

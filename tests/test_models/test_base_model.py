@@ -84,7 +84,7 @@ attribute after calling save() method"""
         key = f"{type(model).__name__}.{model.id}"
         all_objs = storage.all()
         obj = all_objs[key]
-        self.assertEqual(model.updated_at, obj['updated_at'])
+        self.assertEqual(model.updated_at, obj.updated_at)
 
 
 class TestToDictMethod(unittest.TestCase):
