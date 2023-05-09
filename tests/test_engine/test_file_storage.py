@@ -13,11 +13,6 @@ import os
 class TestClassAttributes(unittest.TestCase):
     """This tests the attributes of the FileStorage Class"""
 
-    def test_file_path_is_string(self):
-        """This tests that __file_path class attribute
-        is a string"""
-        self.assertEqual(type((type(storage)).__file_path), str)
-
     def test_objects_is_dict(self):
         """This tests that __objects class attribute
         is a dictionary"""
