@@ -5,7 +5,6 @@ This class contains methods for handling and saving
 objects and also their coonversion into JSON
 """
 
-
 import json
 import os
 
@@ -58,8 +57,19 @@ class FileStorage(object):
             self.__objects = json.loads(json_string)
             to_be_conv_to_obj = self.__objects.copy()
 
-            from models.base_model import BaseModel
             for key, value in to_be_conv_to_obj.items():
-                to_be_conv_to_obj[key] = BaseModel(**value)
+                c_name, ide = key.split(".")
+                klass = self.classes(c_name)
+                to_be_conv_to_obj[key] = klass(**value)
 
             self.__objects = to_be_conv_to_obj.copy()
+
+    def classes(self, class_name):
+        """This will return the class of the class name that
+        is passed"""
+
+        from models.base_model import BaseModel
+        from models.user import User
+
+        all_classes = {'BaseModel': BaseModel, 'User': User}
+        return all_classes[class_name]
