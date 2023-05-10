@@ -9,7 +9,7 @@ from models.base_model import BaseModel
 
 
 class User(BaseModel):
-    """This is the User class that is a subclass of the 
+    """This is the User class that is a subclass of the
     BaseModel Class"""
 
     email = ""
