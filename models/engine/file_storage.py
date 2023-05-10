@@ -70,6 +70,14 @@ class FileStorage(object):
 
         from models.base_model import BaseModel
         from models.user import User
+        from models.state import State
+        from models.amenity import Amenity
+        from models.city import City
+        from models.review import Review
+        from models.place import Place
 
-        all_classes = {'BaseModel': BaseModel, 'User': User}
+        all_classes = {'BaseModel': BaseModel, 'User': User,
+                        'State': State, 'Amenity': Amenity,
+                        'Place': Place, 'Review': Review,
+                        'City': City}
         return all_classes[class_name]
