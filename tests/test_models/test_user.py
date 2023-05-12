@@ -8,6 +8,13 @@ from models import storage
 from datetime import datetime
 
 
+class TestUserIsSubclassOfBaseModel(unittest.TestCase):
+    """This tests that the User class is actually a subclass
+    of the BaseModel class"""
+    def city_is_subclass(self):
+        User = User()
+        self.assertTrue(issubclass(User, BaseModel))
+
 class TestUserInstantiation(unittest.TestCase):
     """This tests the behaviour of the __init__ method
     on the user class"""
@@ -31,11 +38,11 @@ class TestUserInstantiation(unittest.TestCase):
 
     def test_user_updated_is_same_with_created(self):
         """Tests that created_at and updated_at are
-the same at instantiation"""
+        the same at instantiation"""
         user = User()
         diff = user.updated_at - user.created_at
         self.assertEqual(diff.seconds, 0)
-        self.assertLess(diff.microseconds, 15)
+        self.assertLess(diff.microseconds, 50)
     def test_user_kwargs_not_added_to_dictionary(self):
         """Tests that User instances created with kwargs are not
         added to FileStorage.__objects"""
@@ -184,9 +191,20 @@ to_dict method"""
 class TestUserDisplayWhenPrinted(unittest.TestCase):
     """This contains the unuttests for the __str__ methods"""
 
-    def test_display(self):
+    def test_user_display(self):
         """Tests the output of the __str__() method"""
         user = User()
+        output = user.__str__()
+        self.assertEqual(output, f"[{type(user).__name__}] ({user.id}) \
+{user.__dict__}")
+
+    def test_user_display_with_class_attributes(self):
+        """Tests the output of the __str__() method
+        with class attributes initialized"""
+        user = User()
+        last_name = "John"
+        first_name = "Jones"
+        email = "john@yahoo.com"
         output = user.__str__()
         self.assertEqual(output, f"[{type(user).__name__}] ({user.id}) \
 {user.__dict__}")

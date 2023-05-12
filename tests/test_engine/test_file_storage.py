@@ -4,6 +4,11 @@
 
 import unittest
 from models.base_model import BaseModel
+from models.amenity import Amenity
+from models.city import City
+from models.state import State
+from models.review import Review
+from models.place import Place
 from models.user import User
 from models import storage
 from datetime import datetime
@@ -130,5 +135,6 @@ class TestReload(unittest.TestCase):
         all_objs = storage.all()
         self.assertTrue(type(all_objs) is dict)
         for key in all_objs.keys():
-            self.assertTrue(type(all_objs[key]) in [User, BaseModel])
+            self.assertTrue(type(all_objs[key]) in [User, BaseModel, Review,
+                                                    Place, City, Amenity, State])
             
