@@ -242,8 +242,8 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
             return
         obj = all_objs[key]
-        if attr_name in obj.__dict__:
-            attr_type = type(obj.__dict__[attr_name])
+        if attr_name in type(obj).__dict__:
+            attr_type = type(type(obj).__dict__[attr_name])
             attr_val = attr_type(value)
         else:
             attr_val = value
