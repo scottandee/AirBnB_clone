@@ -11,9 +11,11 @@ from datetime import datetime
 class TestCityIsSubclassOfBaseModel(unittest.TestCase):
     """This tests that the City class is actually a subclass
     of the BaseModel class"""
+
     def city_is_subclass(self):
         city = City()
         self.assertTrue(issubclass(City, BaseModel))
+
 
 class TestCityInstantiation(unittest.TestCase):
     """This tests the behaviour of the __init__ method
@@ -43,13 +45,14 @@ class TestCityInstantiation(unittest.TestCase):
         diff = city.updated_at - city.created_at
         self.assertEqual(diff.seconds, 0)
         self.assertLess(diff.microseconds, 50)
+
     def test_city_kwargs_not_added_to_dictionary(self):
         """Tests that City instances created with kwargs are not
         added to FileStorage.__objects"""
         city_json = {'my_number': 89, 'name': 'My First City',
-                      'updated_at': '2017-09-28T21:05:54.119572',
-                      'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579',
-                      'created_at': '2017-09-28T21:05:54.119427'}
+                     'updated_at': '2017-09-28T21:05:54.119572',
+                     'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579',
+                     'created_at': '2017-09-28T21:05:54.119427'}
         new_city = City(**city_json)
         key = f"{type(new_city).__name__}.{new_city.id}"
         all_objs = storage.all()
@@ -61,17 +64,18 @@ class TestCityInstantiation(unittest.TestCase):
         city = City()
         key = f"{type(city).__name__}.{city.id}"
         all_objs = storage.all()
-        self.assertTrue(key in all_objs)    
+        self.assertTrue(key in all_objs)
+
 
 class TestAssigningCityClassAttributes(unittest.TestCase):
     """This unittests that the class attrbutes are assigned correctly"""
-    
+
     def test_assigning_city_state_id(self):
         """This tests assigning a city_id to city class"""
         city = City()
         city.state_id = "9bf17966-b092-4996-bd33-26a5353cccb4"
         self.assertEqual(getattr(city, "state_id"),
-                        "9bf17966-b092-4996-bd33-26a5353cccb4")
+                         "9bf17966-b092-4996-bd33-26a5353cccb4")
         self.assertEqual(getattr(City, "state_id"), "")
         self.assertTrue(hasattr(city, "state_id"))
         self.assertTrue(hasattr(City, "state_id"))
@@ -84,6 +88,7 @@ class TestAssigningCityClassAttributes(unittest.TestCase):
         self.assertEqual(getattr(City, "name"), "")
         self.assertTrue(hasattr(city, "name"))
         self.assertTrue(hasattr(City, "name"))
+
 
 class TestCitySaveMethod(unittest.TestCase):
     """This tests the save instance method"""
@@ -112,6 +117,7 @@ class TestCitySaveMethod(unittest.TestCase):
         all_objs = storage.all()
         obj = all_objs[key]
         self.assertEqual(city.updated_at, obj.updated_at)
+
 
 class TestCityToDictMethod(unittest.TestCase):
     """This tests the to_dict() instance method"""
@@ -191,9 +197,11 @@ class TestCityDisplayWhenPrinted(unittest.TestCase):
         self.assertEqual(output, f"[{type(city).__name__}] ({city.id}) \
 {city.__dict__}")
 
+
 class TestCityInstantionWithKwargs(unittest.TestCase):
     """This contains the unittests for the __init__ method
     with the newly added kwargs parameter"""
+
     def test_city_kwargs_is_None(self):
         """This tests when kwargs is None"""
         city = City(None)
@@ -204,10 +212,10 @@ class TestCityInstantionWithKwargs(unittest.TestCase):
     def test_city_kwargs_regular(self):
         """This tests when kwargs is assigned"""
         dic = {"id": "38f22813-2753-4d42-b37c-57a17f1e4f88", "created_at":
-               "2017-09-28T21:11:42.848279", "updated_at": 
-               "2017-09-28T21:11:42.848291", "name": "Alaska", 
-               "__class__": "City","state_id": "729-28-92"
-               , "password": "root"}
+               "2017-09-28T21:11:42.848279", "updated_at":
+               "2017-09-28T21:11:42.848291", "name": "Alaska",
+               "__class__": "City", "state_id": "729-28-92",
+               "password": "root"}
         city = City(**dic)
         output = city.__str__()
         self.assertEqual(output, f"[{type(city).__name__}] ({city.id}) \
@@ -216,10 +224,9 @@ class TestCityInstantionWithKwargs(unittest.TestCase):
     def test_city_kwargs_regular_with_args_present(self):
         """This tests when kwargs is assigned with args also present"""
         dic = {"id": "38f22813-2753-4d42-b37c-57a17f1e4f88", "created_at":
-               "2017-09-28T21:11:42.848279", "updated_at": 
-               "2017-09-28T21:11:42.848291", "name": "Washington", 
-               "__class__": "City","state_id": "738737"
-               , "password": "root"}
+               "2017-09-28T21:11:42.848279", "updated_at":
+               "2017-09-28T21:11:42.848291", "name": "Washington",
+               "__class__": "City", "state_id": "738737", "password": "root"}
         city = City(45, "string", **dic)
         output = city.__str__()
         self.assertEqual(output, f"[{type(city).__name__}] ({city.id}) \
@@ -228,10 +235,10 @@ class TestCityInstantionWithKwargs(unittest.TestCase):
     def test_city_kwargs_with_declared_attrs(self):
         """This tests when kwargs is assigned"""
         dic = {"id": "38f22813-2753-4d42-b37c-57a17f1e4f88", "created_at":
-               "2017-09-28T21:11:42.848279", "updated_at": 
-               "2017-09-28T21:11:42.848291", "email": "airbnb@mail.com", 
-               "first_name": "Betty", "__class__": "City","last_name": "Bar"
-               , "password": "root", "name": "Anafi", "state_id": 8938182,
+               "2017-09-28T21:11:42.848279", "updated_at":
+               "2017-09-28T21:11:42.848291", "email": "airbnb@mail.com",
+               "first_name": "Betty", "__class__": "City", "last_name": "Bar",
+               "password": "root", "name": "Anafi", "state_id": 8938182,
                "name": "Bagre"}
         city = City(**dic)
         output = city.__str__()
@@ -241,10 +248,10 @@ class TestCityInstantionWithKwargs(unittest.TestCase):
     def test_city_kwargs_with_declared_attrs_and_args(self):
         """This tests when kwargs is assigned with args also present"""
         dic = {"id": "38f22813-2753-4d42-b37c-57a17f1e4f88", "created_at":
-               "2017-09-28T21:11:42.848279", "updated_at": 
-               "2017-09-28T21:11:42.848291", "email": "airbnb@mail.com", 
-               "first_name": "Betty", "__class__": "City","last_name": "Bar"
-               , "password": "root", "text": "Anafi", "state_id": "98337"}
+               "2017-09-28T21:11:42.848279", "updated_at":
+               "2017-09-28T21:11:42.848291", "email": "airbnb@mail.com",
+               "first_name": "Betty", "__class__": "City", "last_name": "Bar",
+               "password": "root", "text": "Anafi", "state_id": "98337"}
         city = City(45, "string", **dic)
         output = city.__str__()
         self.assertEqual(output, f"[{type(city).__name__}] ({city.id}) \
@@ -261,15 +268,15 @@ class TestCityInstantionWithKwargs(unittest.TestCase):
     def test_city_kwargs_created_is_instance_datetime(self):
         """This tests that the city class created is an instance of datetime"""
         dic = {'__class__': 'City', 'updated_at': '2017-09-28T21:05:54.119572',
-        'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579', 'created_at': 
-        '2017-09-28T21:05:54.119427'}
+               'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579', 'created_at':
+               '2017-09-28T21:05:54.119427'}
         city = City(**dic)
         self.assertIsInstance(city.created_at, datetime)
 
     def test_city_underscore_class_is_not_instance_attr(self):
         """This tests thet the underscore class is not an instance attribute"""
         dic = {'__class__': 'City', 'updated_at': '2017-09-28T21:05:54.119572',
-               'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579', 'created_at': 
+               'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579', 'created_at':
                '2017-09-28T21:05:54.119427'}
         city = City()
         dic = city.__dict__

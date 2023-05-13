@@ -130,11 +130,12 @@ class TestReload(unittest.TestCase):
         my_user.last_name = "Bar"
         my_user.email = "airbnb@mail.com"
         my_user.password = "root"
+
         my_user.save()
         model.save()
         all_objs = storage.all()
         self.assertTrue(type(all_objs) is dict)
         for key in all_objs.keys():
             self.assertTrue(type(all_objs[key]) in [User, BaseModel, Review,
-                                                    Place, City, Amenity, State])
-            
+                                                    Place, City, Amenity,
+                                                    State])

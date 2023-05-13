@@ -49,7 +49,7 @@ class FileStorage(object):
         (only if the JSON file (__file_path) exists ; otherwise,
         do nothing. If the file doesn’t exist)
         """
- 
+
         if os.path.exists(self.__file_path):
             with open(self.__file_path, encoding="utf-8") as f:
                 json_string = f.read()
@@ -77,7 +77,7 @@ class FileStorage(object):
         from models.place import Place
 
         all_classes = {'BaseModel': BaseModel, 'User': User,
-                        'State': State, 'Amenity': Amenity,
-                        'Place': Place, 'Review': Review,
-                        'City': City}
+                       'State': State, 'Amenity': Amenity,
+                       'Place': Place, 'Review': Review,
+                       'City': City}
         return all_classes[class_name]

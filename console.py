@@ -65,7 +65,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             compiled.append(klass.group(0))
 
-        args_str = re.compile(r'(?<="|\s|\')[a-z0-9A-Z-_][^)"\'}]+')
+        args_str = re.compile(r'(?<="|\s|\')[a-z0-9A-Z-_@\.]+')
         args = re.findall(args_str, line)
         if args is not None:
             for arg in args:
@@ -81,7 +81,7 @@ class HBNBCommand(cmd.Cmd):
             klass = ''
         compiled.append(klass.group(0))
 
-        args_str = re.compile(r'(?<="|\s|\')[a-z0-9A-Z-_][^)"\'}]+')
+        args_str = re.compile(r'(?<="|\s|\')[a-z0-9A-Z-_@\.]+')
         args = re.findall(args_str, line)
         if len(args) == 1:
             compiled.append(args[0])
@@ -147,20 +147,21 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 0:
             print("** class name missing **")
             return
-        if len(args) == 1:
-            print("** instance id missing **")
-            return
-        class_name, instance_id = args
-        if class_name in CLASSES:
-            key = class_name + "." + instance_id
-            all_objs = storage.all()
-            if key in all_objs:
-                obj = all_objs[key]
-                print(obj)
-            else:
-                print("** no instance found **")
+        if args[0] in CLASSES: 
+            if len(args) == 1:
+                print("** instance id missing **")
+                return
         else:
             print("** class doesn't exist **")
+            return
+        class_name, instance_id = args
+        key = class_name + "." + instance_id
+        all_objs = storage.all()
+        if key in all_objs:
+            obj = all_objs[key]
+            print(obj)
+        else:
+                print("** no instance found **")
 
     def do_destroy(self, line):
         """Deletes an instance based on the class name and id"""
@@ -168,20 +169,21 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 0:
             print("** class name missing **")
             return
-        if len(args) == 1:
-            print("** instance id missing **")
-            return
-        class_name, instance_id = args
-        if class_name in CLASSES:
-            key = class_name + "." + instance_id
-            all_objs = storage.all()
-            if key in all_objs:
-                del(all_objs[key])
-                storage.save()
-            else:
-                print("** no instance found **")
+        if args[0] in CLASSES:
+            if len(args) == 1:
+                print("** instance id missing **")
+                return
         else:
             print("** class doesn't exist **")
+            return
+        class_name, instance_id = args
+        key = class_name + "." + instance_id
+        all_objs = storage.all()
+        if key in all_objs:
+            del(all_objs[key])
+            storage.save()
+        else:
+            print("** no instance found **")
 
     def do_all(self, line):
         """Prints all string representation of all instances
@@ -214,14 +216,18 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 0:
             print("** class name missing **")
             return
-        elif len(args) == 1:
-            print("** instance id missing **")
-            return
-        elif len(args) == 2:
-            print("** attribute name missing **")
-            return
-        elif len(args) == 3:
-            print("** value missing **")
+        if args[0] in CLASSES: 
+            if len(args) == 1:
+                print("** instance id missing **")
+                return
+            elif len(args) == 2:
+                print("** attribute name missing **")
+                return
+            elif len(args) == 3:
+                print("** value missing **")
+                return
+        else:
+            print("** class doesn't exist **")
             return
         class_name = args[0]
         instance_id = args[1]
@@ -230,9 +236,6 @@ class HBNBCommand(cmd.Cmd):
             value = args[3].replace("\"", "")
         else:
             value = args[3]
-        if class_name not in CLASSES:
-            print("** class doesn't exist **")
-            return
         key = class_name + "." + instance_id
         all_objs = storage.all()
         if key not in all_objs:

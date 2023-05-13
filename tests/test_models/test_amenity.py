@@ -11,9 +11,11 @@ from datetime import datetime
 class TestAmenityIsSubclassOfBaseModel(unittest.TestCase):
     """This tests that the Amenity class is actually a subclass
     of the BaseModel class"""
+
     def amenity_is_subclass(self):
         amenity = Amenity()
         self.assertTrue(issubclass(Amenity, BaseModel))
+
 
 class TestAmenityInstantiation(unittest.TestCase):
     """This tests the behaviour of the __init__ method
@@ -43,13 +45,14 @@ class TestAmenityInstantiation(unittest.TestCase):
         diff = amenity.updated_at - amenity.created_at
         self.assertEqual(diff.seconds, 0)
         self.assertLess(diff.microseconds, 50)
+
     def test_amenity_kwargs_not_added_to_dictionary(self):
         """Tests that Amenity instances created with kwargs are not
         added to FileStorage.__objects"""
         amenity_json = {'my_number': 89, 'name': 'My First Amenity',
-                      'updated_at': '2017-09-28T21:05:54.119572',
-                      'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579',
-                      'created_at': '2017-09-28T21:05:54.119427'}
+                        'updated_at': '2017-09-28T21:05:54.119572',
+                        'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579',
+                        'created_at': '2017-09-28T21:05:54.119427'}
         new_amenity = Amenity(**amenity_json)
         key = f"{type(new_amenity).__name__}.{new_amenity.id}"
         all_objs = storage.all()
@@ -61,11 +64,12 @@ class TestAmenityInstantiation(unittest.TestCase):
         amenity = Amenity()
         key = f"{type(amenity).__name__}.{amenity.id}"
         all_objs = storage.all()
-        self.assertTrue(key in all_objs)    
+        self.assertTrue(key in all_objs)
+
 
 class TestAssigningAmenityClassAttributes(unittest.TestCase):
     """This unittests that the class attrbutes are assigned correctly"""
-    
+
     def test_assigning_name(self):
         """This tests assigning an text to amenity class"""
         amenity = Amenity()
@@ -74,6 +78,7 @@ class TestAssigningAmenityClassAttributes(unittest.TestCase):
         self.assertEqual(getattr(Amenity, "name"), "")
         self.assertTrue(hasattr(amenity, "name"))
         self.assertTrue(hasattr(Amenity, "name"))
+
 
 class TestAmenitySaveMethod(unittest.TestCase):
     """This tests the save instance method"""
@@ -103,6 +108,7 @@ class TestAmenitySaveMethod(unittest.TestCase):
         all_objs = storage.all()
         obj = all_objs[key]
         self.assertEqual(amenity.updated_at, obj.updated_at)
+
 
 class TestAmenityToDictMethod(unittest.TestCase):
     """This tests the to_dict() instance method"""
@@ -194,9 +200,9 @@ class TestAmenityInstantionWithKwargs(unittest.TestCase):
     def test_amenity_kwargs_regular(self):
         """This tests when kwargs is assigned"""
         dic = {"id": "38f22813-2753-4d42-b37c-57a17f1e4f88", "created_at":
-               "2017-09-28T21:11:42.848279", "updated_at": 
-               "2017-09-28T21:11:42.848291", "name": "Wifi", 
-               "__class__": "Amenity",}
+               "2017-09-28T21:11:42.848279", "updated_at":
+               "2017-09-28T21:11:42.848291", "name": "Wifi",
+               "__class__": "Amenity", }
         amenity = Amenity(**dic)
         output = amenity.__str__()
         self.assertEqual(output, f"[{type(amenity).__name__}] ({amenity.id}) \
@@ -205,8 +211,8 @@ class TestAmenityInstantionWithKwargs(unittest.TestCase):
     def test_amenity_kwargs_regular_with_args_present(self):
         """This tests when kwargs is assigned with args also present"""
         dic = {"id": "38f22813-2753-4d42-b37c-57a17f1e4f88", "created_at":
-               "2017-09-28T21:11:42.848279", "updated_at": 
-               "2017-09-28T21:11:42.848291", "name": "Wifi", 
+               "2017-09-28T21:11:42.848279", "updated_at":
+               "2017-09-28T21:11:42.848291", "name": "Wifi",
                "__class__": "Amenity"}
         amenity = Amenity(45, "string", **dic)
         output = amenity.__str__()
@@ -216,11 +222,11 @@ class TestAmenityInstantionWithKwargs(unittest.TestCase):
     def test_amenity_kwargs_with_declared_attrs(self):
         """This tests when kwargs is assigned"""
         dic = {"id": "38f22813-2753-4d42-b37c-57a17f1e4f88", "created_at":
-               "2017-09-28T21:11:42.848279", "updated_at": 
-               "2017-09-28T21:11:42.848291", "email": "airbnb@mail.com", 
-               "first_name": "Betty", "__class__": "Amenity","last_name": "Bar"
-               , "password": "root", "name": "Wifi", "state_id": 8938182,
-               "name": "Bagre"}
+               "2017-09-28T21:11:42.848279", "updated_at":
+               "2017-09-28T21:11:42.848291", "email": "airbnb@mail.com",
+               "first_name": "Betty", "__class__": "Amenity",
+               "last_name": "Bar", "password": "root", "name": "Wifi",
+               "state_id": 8938182, "name": "Bagre"}
         amenity = Amenity(**dic)
         output = amenity.__str__()
         self.assertEqual(output, f"[{type(amenity).__name__}] ({amenity.id}) \
@@ -229,10 +235,11 @@ class TestAmenityInstantionWithKwargs(unittest.TestCase):
     def test_amenity_kwargs_with_declared_attrs_and_args(self):
         """This tests when kwargs is assigned with args also present"""
         dic = {"id": "38f22813-2753-4d42-b37c-57a17f1e4f88", "created_at":
-               "2017-09-28T21:11:42.848279", "updated_at": 
-               "2017-09-28T21:11:42.848291", "email": "airbnb@mail.com", 
-               "first_name": "Betty", "__class__": "Amenity","last_name": "Bar"
-               , "password": "root", "name": "Wifi", "state_id": "98337"}
+               "2017-09-28T21:11:42.848279", "updated_at":
+               "2017-09-28T21:11:42.848291", "email": "airbnb@mail.com",
+               "first_name": "Betty", "__class__": "Amenity",
+               "last_name": "Bar", "password": "root", "name": "Wifi",
+               "state_id": "98337"}
         amenity = Amenity(45, "string", **dic)
         output = amenity.__str__()
         self.assertEqual(output, f"[{type(amenity).__name__}] ({amenity.id}) \
@@ -247,17 +254,20 @@ class TestAmenityInstantionWithKwargs(unittest.TestCase):
         self.assertFalse(amenity1 is amenity2)
 
     def test_amenity_kwargs_created_is_instance_datetime(self):
-        """This tests that the amenity class created is an instance of datetime"""
-        dic = {'__class__': 'Amenity', 'updated_at': '2017-09-28T21:05:54.119572',
-        'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579', 'created_at': 
-        '2017-09-28T21:05:54.119427'}
+        """This tests that the amenity class created is an
+        instance of datetime"""
+        dic = {'__class__': 'Amenity',
+               'updated_at': '2017-09-28T21:05:54.119572',
+               'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579', 'created_at':
+               '2017-09-28T21:05:54.119427'}
         amenity = Amenity(**dic)
         self.assertIsInstance(amenity.created_at, datetime)
 
     def test_amenity_underscore_class_is_not_instance_attr(self):
         """This tests thet the underscore class is not an instance attribute"""
-        dic = {'__class__': 'Amenity', 'updated_at': '2017-09-28T21:05:54.119572',
-               'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579', 'created_at': 
+        dic = {'__class__': 'Amenity',
+               'updated_at': '2017-09-28T21:05:54.119572',
+               'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579', 'created_at':
                '2017-09-28T21:05:54.119427'}
         amenity = Amenity()
         dic = amenity.__dict__

@@ -11,9 +11,11 @@ from datetime import datetime
 class TestUserIsSubclassOfBaseModel(unittest.TestCase):
     """This tests that the User class is actually a subclass
     of the BaseModel class"""
+
     def city_is_subclass(self):
         User = User()
         self.assertTrue(issubclass(User, BaseModel))
+
 
 class TestUserInstantiation(unittest.TestCase):
     """This tests the behaviour of the __init__ method
@@ -43,13 +45,14 @@ class TestUserInstantiation(unittest.TestCase):
         diff = user.updated_at - user.created_at
         self.assertEqual(diff.seconds, 0)
         self.assertLess(diff.microseconds, 50)
+
     def test_user_kwargs_not_added_to_dictionary(self):
         """Tests that User instances created with kwargs are not
         added to FileStorage.__objects"""
         user_json = {'my_number': 89, 'name': 'My First User',
-                      'updated_at': '2017-09-28T21:05:54.119572',
-                      'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579',
-                      'created_at': '2017-09-28T21:05:54.119427'}
+                     'updated_at': '2017-09-28T21:05:54.119572',
+                     'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579',
+                     'created_at': '2017-09-28T21:05:54.119427'}
         new_user = User(**user_json)
         key = f"{type(new_user).__name__}.{new_user.id}"
         all_objs = storage.all()
@@ -63,9 +66,10 @@ class TestUserInstantiation(unittest.TestCase):
         all_objs = storage.all()
         self.assertTrue(key in all_objs)
 
+
 class TestAssigningUserClassAttributes(unittest.TestCase):
     """This unittests that the class attrbutes are assigned correctly"""
-    
+
     def test_assigning_email(self):
         """This tests assigning an email to user class"""
         user = User()
@@ -97,7 +101,8 @@ class TestAssigningUserClassAttributes(unittest.TestCase):
         self.assertEqual(getattr(user, "first_name"), "Jones")
         self.assertEqual(getattr(User, "first_name"), "")
         self.assertTrue(hasattr(user, "first_name"))
-  
+
+
 class TestUserSaveMethod(unittest.TestCase):
     """This tests the save instance method"""
 
@@ -125,6 +130,7 @@ class TestUserSaveMethod(unittest.TestCase):
         all_objs = storage.all()
         obj = all_objs[key]
         self.assertEqual(user.updated_at, obj.updated_at)
+
 
 class TestUserToDictMethod(unittest.TestCase):
     """This tests the to_dict() instance method"""
@@ -224,10 +230,10 @@ class TestUserInstantionWithKwargs(unittest.TestCase):
     def test_user_kwargs_regular(self):
         """This tests when kwargs is assigned"""
         dic = {"id": "38f22813-2753-4d42-b37c-57a17f1e4f88", "created_at":
-               "2017-09-28T21:11:42.848279", "updated_at": 
-               "2017-09-28T21:11:42.848291", "email": "airbnb@mail.com", 
-               "first_name": "Betty", "__class__": "User","last_name": "Bar"
-               , "password": "root"}
+               "2017-09-28T21:11:42.848279", "updated_at":
+               "2017-09-28T21:11:42.848291", "email": "airbnb@mail.com",
+               "first_name": "Betty", "__class__": "User", "last_name": "Bar",
+               "password": "root"}
         user = User(**dic)
         output = user.__str__()
         self.assertEqual(output, f"[{type(user).__name__}] ({user.id}) \
@@ -236,10 +242,10 @@ class TestUserInstantionWithKwargs(unittest.TestCase):
     def test_user_kwargs_regular_with_args_present(self):
         """This tests when kwargs is assigned with args also present"""
         dic = {"id": "38f22813-2753-4d42-b37c-57a17f1e4f88", "created_at":
-               "2017-09-28T21:11:42.848279", "updated_at": 
-               "2017-09-28T21:11:42.848291", "email": "airbnb@mail.com", 
-               "first_name": "Betty", "__class__": "User","last_name": "Bar"
-               , "password": "root"}
+               "2017-09-28T21:11:42.848279", "updated_at":
+               "2017-09-28T21:11:42.848291", "email": "airbnb@mail.com",
+               "first_name": "Betty", "__class__": "User", "last_name": "Bar",
+               "password": "root"}
         user = User(45, "string", **dic)
         output = user.__str__()
         self.assertEqual(output, f"[{type(user).__name__}] ({user.id}) \
@@ -248,10 +254,10 @@ class TestUserInstantionWithKwargs(unittest.TestCase):
     def test_user_kwargs_with_declared_attrs(self):
         """This tests when kwargs is assigned"""
         dic = {"id": "38f22813-2753-4d42-b37c-57a17f1e4f88", "created_at":
-               "2017-09-28T21:11:42.848279", "updated_at": 
-               "2017-09-28T21:11:42.848291", "email": "airbnb@mail.com", 
-               "first_name": "Betty", "__class__": "User","last_name": "Bar"
-               , "password": "root", "name": "Anafi"}
+               "2017-09-28T21:11:42.848279", "updated_at":
+               "2017-09-28T21:11:42.848291", "email": "airbnb@mail.com",
+               "first_name": "Betty", "__class__": "User", "last_name": "Bar",
+               "password": "root", "name": "Anafi"}
         user = User(**dic)
         output = user.__str__()
         self.assertEqual(output, f"[{type(user).__name__}] ({user.id}) \
@@ -260,10 +266,10 @@ class TestUserInstantionWithKwargs(unittest.TestCase):
     def test_user_kwargs_with_declared_attrs_and_args(self):
         """This tests when kwargs is assigned with args also present"""
         dic = {"id": "38f22813-2753-4d42-b37c-57a17f1e4f88", "created_at":
-               "2017-09-28T21:11:42.848279", "updated_at": 
-               "2017-09-28T21:11:42.848291", "email": "airbnb@mail.com", 
-               "first_name": "Betty", "__class__": "User","last_name": "Bar"
-               , "password": "root", "name": "Anafi"}
+               "2017-09-28T21:11:42.848279", "updated_at":
+               "2017-09-28T21:11:42.848291", "email": "airbnb@mail.com",
+               "first_name": "Betty", "__class__": "User", "last_name": "Bar",
+               "password": "root", "name": "Anafi"}
         user = User(45, "string", **dic)
         output = user.__str__()
         self.assertEqual(output, f"[{type(user).__name__}] ({user.id}) \
@@ -280,15 +286,15 @@ class TestUserInstantionWithKwargs(unittest.TestCase):
     def test_user_kwargs_created_is_instance_datetime(self):
         """This tests that the user class created is an instance of datetime"""
         dic = {'__class__': 'User', 'updated_at': '2017-09-28T21:05:54.119572',
-        'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579', 'created_at': 
-        '2017-09-28T21:05:54.119427'}
+               'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579', 'created_at':
+               '2017-09-28T21:05:54.119427'}
         user = User(**dic)
         self.assertIsInstance(user.created_at, datetime)
 
     def test_user_underscore_class_is_not_instance_attr(self):
         """This tests thet the underscore class is not an instance attribute"""
         dic = {'__class__': 'User', 'updated_at': '2017-09-28T21:05:54.119572',
-               'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579', 'created_at': 
+               'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579', 'created_at':
                '2017-09-28T21:05:54.119427'}
         user = User()
         dic = user.__dict__

@@ -11,9 +11,11 @@ from datetime import datetime
 class TestReviewIsSubclassOfBaseModel(unittest.TestCase):
     """This tests that the Rview class is actually a subclass
     of the BaseModel class"""
+
     def review_is_subclass(self):
         review = Review()
         self.assertTrue(issubclass(Review, BaseModel))
+
 
 class TestReviewInstantiation(unittest.TestCase):
     """This tests the behaviour of the __init__ method
@@ -43,13 +45,14 @@ class TestReviewInstantiation(unittest.TestCase):
         diff = review.updated_at - review.created_at
         self.assertEqual(diff.seconds, 0)
         self.assertLess(diff.microseconds, 50)
+
     def test_review_kwargs_not_added_to_dictionary(self):
         """Tests that Review instances created with kwargs are not
         added to FileStorage.__objects"""
         review_json = {'my_number': 89, 'name': 'My First Review',
-                      'updated_at': '2017-09-28T21:05:54.119572',
-                      'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579',
-                      'created_at': '2017-09-28T21:05:54.119427'}
+                       'updated_at': '2017-09-28T21:05:54.119572',
+                       'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579',
+                       'created_at': '2017-09-28T21:05:54.119427'}
         new_review = Review(**review_json)
         key = f"{type(new_review).__name__}.{new_review.id}"
         all_objs = storage.all()
@@ -61,11 +64,12 @@ class TestReviewInstantiation(unittest.TestCase):
         review = Review()
         key = f"{type(review).__name__}.{review.id}"
         all_objs = storage.all()
-        self.assertTrue(key in all_objs)    
+        self.assertTrue(key in all_objs)
+
 
 class TestAssigningReviewClassAttributes(unittest.TestCase):
     """This unittests that the class attrbutes are assigned correctly"""
-    
+
     def test_assigning_place_id(self):
         """This tests assigning a place_id to review class"""
         review = Review()
@@ -80,7 +84,7 @@ class TestAssigningReviewClassAttributes(unittest.TestCase):
         review = Review()
         review.user_id = "9bf17966-b092-4996-bd33-26a5353cccb4"
         self.assertEqual(getattr(review, "user_id"),
-                        "9bf17966-b092-4996-bd33-26a5353cccb4")
+                         "9bf17966-b092-4996-bd33-26a5353cccb4")
         self.assertEqual(getattr(Review, "user_id"), "")
         self.assertTrue(hasattr(review, "user_id"))
         self.assertTrue(hasattr(Review, "user_id"))
@@ -93,6 +97,7 @@ class TestAssigningReviewClassAttributes(unittest.TestCase):
         self.assertEqual(getattr(Review, "text"), "")
         self.assertTrue(hasattr(review, "text"))
         self.assertTrue(hasattr(Review, "text"))
+
 
 class TestReviewSaveMethod(unittest.TestCase):
     """This tests the save instance method"""
@@ -121,6 +126,7 @@ class TestReviewSaveMethod(unittest.TestCase):
         all_objs = storage.all()
         obj = all_objs[key]
         self.assertEqual(review.updated_at, obj.updated_at)
+
 
 class TestReviewToDictMethod(unittest.TestCase):
     """This tests the to_dict() instance method"""
@@ -203,9 +209,11 @@ class TestReviewDisplayWhenPrinted(unittest.TestCase):
         self.assertEqual(output, f"[{type(review).__name__}] ({review.id}) \
 {review.__dict__}")
 
+
 class TestReviewInstantionWithKwargs(unittest.TestCase):
     """This contains the unittests for the __init__ method
     with the newly added kwargs parameter"""
+
     def test_review_kwargs_is_None(self):
         """This tests when kwargs is None"""
         review = Review(None)
@@ -216,10 +224,10 @@ class TestReviewInstantionWithKwargs(unittest.TestCase):
     def test_review_kwargs_regular(self):
         """This tests when kwargs is assigned"""
         dic = {"id": "38f22813-2753-4d42-b37c-57a17f1e4f88", "created_at":
-               "2017-09-28T21:11:42.848279", "updated_at": 
-               "2017-09-28T21:11:42.848291", "place_id": "81393910", 
-               "text": "Betty", "__class__": "Review","user_id": "729-28-92"
-               , "password": "root"}
+               "2017-09-28T21:11:42.848279", "updated_at":
+               "2017-09-28T21:11:42.848291", "place_id": "81393910",
+               "text": "Betty", "__class__": "Review",
+               "user_id": "729-28-92", "password": "root"}
         review = Review(**dic)
         output = review.__str__()
         self.assertEqual(output, f"[{type(review).__name__}] ({review.id}) \
@@ -228,10 +236,10 @@ class TestReviewInstantionWithKwargs(unittest.TestCase):
     def test_review_kwargs_regular_with_args_present(self):
         """This tests when kwargs is assigned with args also present"""
         dic = {"id": "38f22813-2753-4d42-b37c-57a17f1e4f88", "created_at":
-               "2017-09-28T21:11:42.848279", "updated_at": 
-               "2017-09-28T21:11:42.848291", "text": "Aloha Houses", 
-               "place_id": "8873093", "__class__": "Review","user_id": "738737"
-               , "password": "root"}
+               "2017-09-28T21:11:42.848279", "updated_at":
+               "2017-09-28T21:11:42.848291", "text": "Aloha Houses",
+               "place_id": "8873093", "__class__": "Review",
+               "user_id": "738737", "password": "root"}
         review = Review(45, "string", **dic)
         output = review.__str__()
         self.assertEqual(output, f"[{type(review).__name__}] ({review.id}) \
@@ -240,11 +248,11 @@ class TestReviewInstantionWithKwargs(unittest.TestCase):
     def test_review_kwargs_with_declared_attrs(self):
         """This tests when kwargs is assigned"""
         dic = {"id": "38f22813-2753-4d42-b37c-57a17f1e4f88", "created_at":
-               "2017-09-28T21:11:42.848279", "updated_at": 
-               "2017-09-28T21:11:42.848291", "email": "airbnb@mail.com", 
-               "first_name": "Betty", "__class__": "Review","last_name": "Bar"
-               , "password": "root", "name": "Anafi", "place_id": 8938182,
-               "user_id": "161339", "text": "Bagre"}
+               "2017-09-28T21:11:42.848279", "updated_at":
+               "2017-09-28T21:11:42.848291", "email": "airbnb@mail.com",
+               "first_name": "Betty", "__class__": "Review",
+               "last_name": "Bar", "password": "root", "name": "Anafi",
+               "place_id": 8938182, "user_id": "161339", "text": "Bagre"}
         review = Review(**dic)
         output = review.__str__()
         self.assertEqual(output, f"[{type(review).__name__}] ({review.id}) \
@@ -253,10 +261,12 @@ class TestReviewInstantionWithKwargs(unittest.TestCase):
     def test_review_kwargs_with_declared_attrs_and_args(self):
         """This tests when kwargs is assigned with args also present"""
         dic = {"id": "38f22813-2753-4d42-b37c-57a17f1e4f88", "created_at":
-               "2017-09-28T21:11:42.848279", "updated_at": 
-               "2017-09-28T21:11:42.848291", "email": "airbnb@mail.com", 
-               "first_name": "Betty", "__class__": "Review","last_name": "Bar"
-               , "password": "root", "name": "Anafi", "place_id": "98337"}
+               "2017-09-28T21:11:42.848279",
+               "updated_at": "2017-09-28T21:11:42.848291",
+               "email": "airbnb@mail.com",
+               "first_name": "Betty", "__class__": "Review",
+               "last_name": "Bar", "password": "root", "name": "Anafi",
+               "place_id": "98337"}
         review = Review(45, "string", **dic)
         output = review.__str__()
         self.assertEqual(output, f"[{type(review).__name__}] ({review.id}) \
@@ -271,17 +281,21 @@ class TestReviewInstantionWithKwargs(unittest.TestCase):
         self.assertFalse(review1 is review2)
 
     def test_review_kwargs_created_is_instance_datetime(self):
-        """This tests that the review class created is an instance of datetime"""
-        dic = {'__class__': 'Review', 'updated_at': '2017-09-28T21:05:54.119572',
-        'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579', 'created_at': 
-        '2017-09-28T21:05:54.119427'}
+        """This tests that the review class created is an
+        instance of datetime"""
+        dic = {'__class__': 'Review',
+               'updated_at': '2017-09-28T21:05:54.119572',
+               'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579', 'created_at':
+               '2017-09-28T21:05:54.119427'}
         review = Review(**dic)
         self.assertIsInstance(review.created_at, datetime)
 
     def test_review_underscore_class_is_not_instance_attr(self):
-        """This tests thet the underscore class is not an instance attribute"""
-        dic = {'__class__': 'Review', 'updated_at': '2017-09-28T21:05:54.119572',
-               'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579', 'created_at': 
+        """This tests thet the underscore class is not an
+        instance attribute"""
+        dic = {'__class__': 'Review',
+               'updated_at': '2017-09-28T21:05:54.119572',
+               'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579', 'created_at':
                '2017-09-28T21:05:54.119427'}
         review = Review()
         dic = review.__dict__
