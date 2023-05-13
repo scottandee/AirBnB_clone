@@ -37,10 +37,6 @@ class HBNBCommand(cmd.Cmd):
         """Determines what happens with an empty line + ENTER"""
         pass
 
-    def postloop(self):
-        """Determines what happens at the end of loop"""
-        print()
-    
     def precmd(self, line):
         if not sys.stdin.isatty():
             print()
@@ -49,7 +45,8 @@ class HBNBCommand(cmd.Cmd):
             return line
         line = line.strip()
         compiled = []
-        cmd = re.search('((?<=\.)[a-z]+(?=\())', line)
+        cmd_string = re.compile(r'((?<=\.)[a-z]+(?=\())')
+        cmd = re.search(cmd_string, line)
         if cmd is None:
             cmd = ''
             compiled.append(cmd)
@@ -60,30 +57,32 @@ class HBNBCommand(cmd.Cmd):
         if cmd is not None:
             compiled.append(cmd.group(0))
 
-        klass = re.search('(^\w+)', line)
+        klass_str = re.compile(r'(^\w+)')
+        klass = re.search(klass_str, line)
         if klass is None:
             klass = ''
             compiled.append(klass)
         else:
             compiled.append(klass.group(0))
 
-        args = re.findall('(?<="|\s|\')[a-z0-9A-Z-_][^)"\'}]+', line)
+        args_str = re.compile(r'(?<="|\s|\')[a-z0-9A-Z-_][^)"\'}]+')
+        args = re.findall(args_str, line)
         if args is not None:
             for arg in args:
                 compiled.append(arg)
         joined = " ".join(compiled)
-        print(compiled)
-        print(joined)
         return joined
 
     def convert(self, line):
         compiled = []
-        klass = re.search('(^\w+)', line)
+        klass_str = re.compile(r'(^\w+)')
+        klass = re.search(klass_str, line)
         if klass is None:
             klass = ''
         compiled.append(klass.group(0))
 
-        args = re.findall('(?<="|\s|\')[a-z0-9A-Z-_][^)"\'}]+', line)
+        args_str = re.compile(r'(?<="|\s|\')[a-z0-9A-Z-_][^)"\'}]+')
+        args = re.findall(args_str, line)
         if len(args) == 1:
             compiled.append(args[0])
             joined = joined = " ".join(compiled)
@@ -97,7 +96,6 @@ class HBNBCommand(cmd.Cmd):
                 if i % 2 == 0:
                     copy.extend(pair)
                     joined = " ".join(copy)
-                    print(joined)
                     HBNBCommand().do_update(joined)
                     copy = compiled.copy()
                     pair = []
@@ -126,7 +124,6 @@ class HBNBCommand(cmd.Cmd):
             print(num)
         else:
             print("** class doesn't exist **")
-
 
     def do_create(self, line):
         """Creates a new instance of the given class,
@@ -185,7 +182,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
         else:
             print("** class doesn't exist **")
-    
+
     def do_all(self, line):
         """Prints all string representation of all instances
         based or not on the class name."""
@@ -249,6 +246,7 @@ class HBNBCommand(cmd.Cmd):
             attr_val = value
         setattr(obj, attr_name, attr_val)
         obj.save()
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
