@@ -8,6 +8,7 @@ that inherits from the Cmd class in the cmd module
 import ast
 import re
 import cmd
+import sys
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -41,6 +42,9 @@ class HBNBCommand(cmd.Cmd):
         print()
     
     def precmd(self, line):
+        if not sys.stdin.isatty():
+            print()
+
         if "(" not in line:
             return line
         line = line.strip()
@@ -104,6 +108,25 @@ class HBNBCommand(cmd.Cmd):
         else:
             joined = joined = " ".join(compiled)
             HBNBCommand().do_update(joined)
+
+    def do_count(self, line):
+        """Retrieve the number of instances of a class"""
+        if not line:
+            print("** class name missing **")
+            return
+        class_name = line
+        num = 0
+        if class_name in CLASSES:
+            objs = storage.all()
+            for keys in objs:
+                if class_name in keys:
+                    num += 1
+                else:
+                    continue
+            print(num)
+        else:
+            print("** class doesn't exist **")
+
 
     def do_create(self, line):
         """Creates a new instance of the given class,
