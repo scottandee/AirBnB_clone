@@ -5,7 +5,8 @@ This module contains the definition of the HBNBCommand Class
 that inherits from the Cmd class in the cmd module
 """
 
-
+import ast
+import re
 import cmd
 from models.base_model import BaseModel
 from models.user import User
@@ -38,6 +39,71 @@ class HBNBCommand(cmd.Cmd):
     def postloop(self):
         """Determines what happens at the end of loop"""
         print()
+    
+    def precmd(self, line):
+        if "(" not in line:
+            return line
+        line = line.strip()
+        compiled = []
+        cmd = re.search('((?<=\.)[a-z]+(?=\())', line)
+        if cmd is None:
+            cmd = ''
+            compiled.append(cmd)
+        if cmd.group(0) == 'update':
+            if '{' in line:
+                HBNBCommand().convert(line)
+                return ""
+        if cmd is not None:
+            compiled.append(cmd.group(0))
+
+        klass = re.search('(^\w+)', line)
+        if klass is None:
+            klass = ''
+            compiled.append(klass)
+        else:
+            compiled.append(klass.group(0))
+
+        args = re.findall('(?<="|\s|\')[a-z0-9A-Z-_][^)"\'}]+', line)
+        if args is not None:
+            for arg in args:
+                compiled.append(arg)
+        joined = " ".join(compiled)
+        print(compiled)
+        print(joined)
+        return joined
+
+    def convert(self, line):
+        compiled = []
+        klass = re.search('(^\w+)', line)
+        if klass is None:
+            klass = ''
+        compiled.append(klass.group(0))
+
+        args = re.findall('(?<="|\s|\')[a-z0-9A-Z-_][^)"\'}]+', line)
+        if len(args) == 1:
+            compiled.append(args[0])
+            joined = joined = " ".join(compiled)
+            HBNBCommand().do_update(joined)
+        elif args is not None:
+            compiled.append(args[0])
+            pair = []
+            copy = compiled.copy()
+            for i in range(1, len(args)):
+                pair.append(args[i])
+                if i % 2 == 0:
+                    copy.extend(pair)
+                    joined = " ".join(copy)
+                    print(joined)
+                    HBNBCommand().do_update(joined)
+                    copy = compiled.copy()
+                    pair = []
+            if len(pair) != 0:
+                copy.extend(pair)
+                joined = " ".join(copy)
+                HBNBCommand().do_update(joined)
+        else:
+            joined = joined = " ".join(compiled)
+            HBNBCommand().do_update(joined)
 
     def do_create(self, line):
         """Creates a new instance of the given class,
@@ -96,7 +162,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
         else:
             print("** class doesn't exist **")
-
+    
     def do_all(self, line):
         """Prints all string representation of all instances
         based or not on the class name."""
@@ -160,7 +226,6 @@ class HBNBCommand(cmd.Cmd):
             attr_val = value
         setattr(obj, attr_name, attr_val)
         obj.save()
-
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
