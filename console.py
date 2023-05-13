@@ -57,7 +57,7 @@ class HBNBCommand(cmd.Cmd):
         if cmd is not None:
             compiled.append(cmd.group(0))
 
-        klass_str = re.compile(r'(^\w+)')
+        klass_str = re.compile(r'(^[A-z].[a-zA-z]+)')
         klass = re.search(klass_str, line)
         if klass is None:
             klass = ''
@@ -75,7 +75,7 @@ class HBNBCommand(cmd.Cmd):
 
     def convert(self, line):
         compiled = []
-        klass_str = re.compile(r'(^\w+)')
+        klass_str = re.compile(r'(^[A-z].[a-zA-z]+)')
         klass = re.search(klass_str, line)
         if klass is None:
             klass = ''
