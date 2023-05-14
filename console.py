@@ -96,7 +96,9 @@ class HBNBCommand(cmd.Cmd):
                 if i % 2 == 0:
                     copy.extend(pair)
                     joined = " ".join(copy)
-                    HBNBCommand().do_update(joined)
+                    code = HBNBCommand().do_update(joined)
+                    if code == 1:
+                        return
                     copy = compiled.copy()
                     pair = []
             if len(pair) != 0:
@@ -213,22 +215,27 @@ class HBNBCommand(cmd.Cmd):
         """Updates an instance based on the class name and
  id by adding or updating attribute"""
         args = line.split()
+        all_objs = storage.all()
         if len(args) == 0:
             print("** class name missing **")
-            return
+            return 1
         if args[0] in CLASSES:
             if len(args) == 1:
                 print("** instance id missing **")
-                return
-            elif len(args) == 2:
+                return 1
+            key = args[0] + "." + args[1]
+            if key not in all_objs:
+                print("** no instance found **")
+                return 1
+            if len(args) == 2:
                 print("** attribute name missing **")
-                return
-            elif len(args) == 3:
+                return 1
+            if len(args) == 3:
                 print("** value missing **")
-                return
+                return 1
         else:
             print("** class doesn't exist **")
-            return
+            return 1
         class_name = args[0]
         instance_id = args[1]
         attr_name = args[2]
@@ -237,10 +244,6 @@ class HBNBCommand(cmd.Cmd):
         else:
             value = args[3]
         key = class_name + "." + instance_id
-        all_objs = storage.all()
-        if key not in all_objs:
-            print("** no instance found **")
-            return
         obj = all_objs[key]
         if attr_name in type(obj).__dict__:
             attr_type = type(type(obj).__dict__[attr_name])
@@ -249,6 +252,7 @@ class HBNBCommand(cmd.Cmd):
             attr_val = value
         setattr(obj, attr_name, attr_val)
         obj.save()
+        return 0
 
 
 if __name__ == '__main__':

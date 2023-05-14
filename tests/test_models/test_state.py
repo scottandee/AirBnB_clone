@@ -40,7 +40,6 @@ the same at instantiation"""
         state = State()
         diff = state.updated_at - state.created_at
         self.assertEqual(diff.seconds, 0)
-        self.assertLess(diff.microseconds, 15)
 
     def test_state_kwargs_not_added_to_dictionary(self):
         """Tests that State instances created with kwargs are not

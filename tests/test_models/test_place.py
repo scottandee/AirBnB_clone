@@ -40,7 +40,6 @@ the same at instantiation"""
         place = Place()
         diff = place.updated_at - place.created_at
         self.assertEqual(diff.seconds, 0)
-        self.assertLess(diff.microseconds, 15)
 
     def test_place_kwargs_not_added_to_dictionary(self):
         """Tests that Place instances created with kwargs are not

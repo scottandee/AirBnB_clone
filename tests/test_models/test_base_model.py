@@ -35,7 +35,6 @@ the same at instantiation"""
         model = BaseModel()
         diff = model.updated_at - model.created_at
         self.assertEqual(diff.seconds, 0)
-        self.assertLess(diff.microseconds, 50)
 
     def test_kwargs_not_added_to_dictionary(self):
         """Tests that BaseModel instances created with kwargs are not

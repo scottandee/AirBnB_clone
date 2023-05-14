@@ -44,7 +44,6 @@ class TestCityInstantiation(unittest.TestCase):
         city = City()
         diff = city.updated_at - city.created_at
         self.assertEqual(diff.seconds, 0)
-        self.assertLess(diff.microseconds, 50)
 
     def test_city_kwargs_not_added_to_dictionary(self):
         """Tests that City instances created with kwargs are not

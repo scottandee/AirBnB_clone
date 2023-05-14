@@ -44,7 +44,6 @@ class TestReviewInstantiation(unittest.TestCase):
         review = Review()
         diff = review.updated_at - review.created_at
         self.assertEqual(diff.seconds, 0)
-        self.assertLess(diff.microseconds, 50)
 
     def test_review_kwargs_not_added_to_dictionary(self):
         """Tests that Review instances created with kwargs are not

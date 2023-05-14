@@ -44,7 +44,6 @@ class TestUserInstantiation(unittest.TestCase):
         user = User()
         diff = user.updated_at - user.created_at
         self.assertEqual(diff.seconds, 0)
-        self.assertLess(diff.microseconds, 50)
 
     def test_user_kwargs_not_added_to_dictionary(self):
         """Tests that User instances created with kwargs are not

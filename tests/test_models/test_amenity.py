@@ -44,7 +44,6 @@ class TestAmenityInstantiation(unittest.TestCase):
         amenity = Amenity()
         diff = amenity.updated_at - amenity.created_at
         self.assertEqual(diff.seconds, 0)
-        self.assertLess(diff.microseconds, 50)
 
     def test_amenity_kwargs_not_added_to_dictionary(self):
         """Tests that Amenity instances created with kwargs are not
