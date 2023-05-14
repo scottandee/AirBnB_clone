@@ -5,6 +5,7 @@ This module contains the definition of the BaseModel Class
 that defines all common attributes/methods for other classes
 """
 
+
 from datetime import datetime
 import uuid
 from models import storage

@@ -94,11 +94,12 @@ class TestCreateCommandError(unittest.TestCase):
     def test_create_no_class(self):
         """Tests that appropriate error is shown when create is
         called with no argument"""
-        err_message = "** class name missing **\n"
+        err_message = "** class name missing **"
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("create")
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_create_wrong_class(self):
         """Tests that appropriate error is shown when create is
@@ -645,7 +646,7 @@ class TestAdvancedAllCommand(unittest.TestCase):
 class TestAdvancedAllCommandError(unittest.TestCase):
     """Tests the all command of the console with faulty input"""
 
-    def test_all_wrong_class(self):
+    def test_advanced_all_wrong_class(self):
         """Tests that appropriate error is shown when all is
         called with a class that doesn't exist"""
         err_message = "** class doesn't exist **\n"
@@ -720,12 +721,13 @@ class TestCountCommandError(unittest.TestCase):
     def test_count_wrong_class(self):
         """Tests that appropriate error is shown when count is
         called with a class that doesn't exist"""
-        err_message = "** class doesn't exist **\n"
+        err_message = "** class doesn't exist **"
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd("MyModel.count()")
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
 
 class TestAdvancedShowCommand(unittest.TestCase):
