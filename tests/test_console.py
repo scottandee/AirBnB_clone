@@ -94,20 +94,22 @@ class TestCreateCommandError(unittest.TestCase):
     def test_create_no_class(self):
         """Tests that appropriate error is shown when create is
         called with no argument"""
-        err_message = "** class name missing **\n"
+        err_message = "** class name missing **"
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("create")
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_create_wrong_class(self):
         """Tests that appropriate error is shown when create is
         called with a class that doesn't exist"""
-        err_message = "** class doesn't exist **\n"
+        err_message = "** class doesn't exist **"
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("create MyModel")
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
 
 class TestAllCommand(unittest.TestCase):
@@ -122,11 +124,12 @@ class TestAllCommand(unittest.TestCase):
         for key in objs.keys():
             obj = objs[key]
             obj_list.append(obj.__str__())
-        str_obj_list = str(obj_list) + "\n"
+        str_obj_list = str(obj_list)
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("all")
             test = f.getvalue()
-            self.assertEqual(str_obj_list, test)
+            check = test.replace("\n", "")
+            self.assertEqual(str_obj_list, check)
 
     def test_all_basemodel(self):
         """Tests that all works for BaseModel"""
@@ -140,11 +143,12 @@ class TestAllCommand(unittest.TestCase):
                 obj_list.append(obj.__str__())
             else:
                 continue
-        str_obj_list = str(obj_list) + "\n"
+        str_obj_list = str(obj_list)
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("all BaseModel")
             test = f.getvalue()
-            self.assertEqual(str_obj_list, test)
+            check = test.replace("\n", "")
+            self.assertEqual(str_obj_list, check)
 
     def test_all_place(self):
         """Tests that all works for Place"""
@@ -158,11 +162,12 @@ class TestAllCommand(unittest.TestCase):
                 obj_list.append(obj.__str__())
             else:
                 continue
-        str_obj_list = str(obj_list) + "\n"
+        str_obj_list = str(obj_list)
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("all Place")
             test = f.getvalue()
-            self.assertEqual(str_obj_list, test)
+            check = test.replace("\n", "")
+            self.assertEqual(str_obj_list, check)
 
     def test_all_state(self):
         """Tests that all works for State"""
@@ -176,11 +181,12 @@ class TestAllCommand(unittest.TestCase):
                 obj_list.append(obj.__str__())
             else:
                 continue
-        str_obj_list = str(obj_list) + "\n"
+        str_obj_list = str(obj_list)
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("all State")
             test = f.getvalue()
-            self.assertEqual(str_obj_list, test)
+            check = test.replace("\n", "")
+            self.assertEqual(str_obj_list, check)
 
     def test_all_amenity(self):
         """Tests that all works for Amenity"""
@@ -194,11 +200,12 @@ class TestAllCommand(unittest.TestCase):
                 obj_list.append(obj.__str__())
             else:
                 continue
-        str_obj_list = str(obj_list) + "\n"
+        str_obj_list = str(obj_list)
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("all Amenity")
             test = f.getvalue()
-            self.assertEqual(str_obj_list, test)
+            check = test.replace("\n", "")
+            self.assertEqual(str_obj_list, check)
 
 
 class TestAllCommandError(unittest.TestCase):
@@ -207,11 +214,12 @@ class TestAllCommandError(unittest.TestCase):
     def test_all_wrong_class(self):
         """Tests that appropriate error is shown when all is
         called with a class that doesn't exist"""
-        err_message = "** class doesn't exist **\n"
+        err_message = "** class doesn't exist **"
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("all MyModel")
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
 
 class TestShowCommand(unittest.TestCase):
@@ -223,33 +231,36 @@ class TestShowCommand(unittest.TestCase):
 
         basemodel = BaseModel()
         expected = f"[{BaseModel.__name__}] ({basemodel.id})\
- {basemodel.__dict__}" + "\n"
+ {basemodel.__dict__}"
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd(f"show BaseModel {basemodel.id}")
             test = f.getvalue()
-            self.assertEqual(test, expected)
+            check = test.replace("\n", "")
+            self.assertEqual(check, expected)
 
     def test_show_user(self):
         """Tests that show works for User instance"""
         from models.user import User
 
         user = User()
-        expected = f"[{User.__name__}] ({user.id}) {user.__dict__}" + "\n"
+        expected = f"[{User.__name__}] ({user.id}) {user.__dict__}"
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd(f"show User {user.id}")
             test = f.getvalue()
-            self.assertEqual(test, expected)
+            check = test.replace("\n", "")
+            self.assertEqual(check, expected)
 
     def test_show_city(self):
         """Tests that show works for City instance"""
         from models.city import City
 
         city = City()
-        expected = f"[{City.__name__}] ({city.id}) {city.__dict__}" + "\n"
+        expected = f"[{City.__name__}] ({city.id}) {city.__dict__}"
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd(f"show City {city.id}")
             test = f.getvalue()
-            self.assertEqual(test, expected)
+            check = test.replace("\n", "")
+            self.assertEqual(check, expected)
 
 
 class TestShowCommandError(unittest.TestCase):
@@ -258,38 +269,42 @@ class TestShowCommandError(unittest.TestCase):
     def test_show_no_class(self):
         """Tests that appropriate error is shown when show is
         called with no argument"""
-        err_message = "** class name missing **\n"
+        err_message = "** class name missing **"
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("show")
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_show_no_id(self):
         """Tests that appropriate error is shown when show is
         called with only the class"""
-        err_message = "** instance id missing **\n"
+        err_message = "** instance id missing **"
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("show BaseModel")
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_show_wrong_class(self):
         """Tests that appropriate error is shown when show is
         called with a class that doesn't exist"""
-        err_message = "** class doesn't exist **\n"
+        err_message = "** class doesn't exist **"
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("show MyModel")
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_show_wrong_id(self):
         """Tests that appropriate error is shown when show is
         called with an id that doesn't exist"""
-        err_message = "** no instance found **\n"
+        err_message = "** no instance found **"
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("show BaseModel 121212")
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
 
 class TestDestroyCommand(unittest.TestCase):
@@ -338,47 +353,52 @@ class TestDestroyCommandError(unittest.TestCase):
     def test_destroy_no_class(self):
         """Tests that appropriate error is shown when destroy is
         called with no argument"""
-        err_message = "** class name missing **\n"
+        err_message = "** class name missing **"
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("destroy")
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_destroy_no_id(self):
         """Tests that appropriate error is shown when destroy is
         called with only the class"""
-        err_message = "** instance id missing **\n"
+        err_message = "** instance id missing **"
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("destroy BaseModel")
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_destroy_wrong_class(self):
         """Tests that appropriate error is shown when destroy is
         called with a class that doesn't exist"""
-        err_message = "** class doesn't exist **\n"
+        err_message = "** class doesn't exist **"
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("destroy MyModel")
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_destroy_wrong_id(self):
         """Tests that appropriate error is shown when destroy is
         called with an id that doesn't exist"""
-        err_message = "** no instance found **\n"
+        err_message = "** no instance found **"
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("destroy BaseModel 121212")
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_destroy_wrong_class_with_id(self):
         """Tests that appropriate error is shown when destroy is
         called with a class that doesn't exist even when id is present"""
-        err_message = "** class doesn't exist **\n"
+        err_message = "** class doesn't exist **"
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("destroy MyModel 121212")
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
 
 class TestUpdateCommand(unittest.TestCase):
@@ -420,38 +440,42 @@ class TestUpdateCommandError(unittest.TestCase):
     def test_update_no_class(self):
         """Tests that appropriate error is shown when update is
         called with no argument"""
-        err_message = "** class name missing **\n"
+        err_message = "** class name missing **"
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("update")
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_update_no_id(self):
         """Tests that appropriate error is shown when update is
         called with only the class"""
-        err_message = "** instance id missing **\n"
+        err_message = "** instance id missing **"
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("update BaseModel")
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_update_wrong_class(self):
         """Tests that appropriate error is shown when update is
         called with a class that doesn't exist"""
-        err_message = "** class doesn't exist **\n"
+        err_message = "** class doesn't exist **"
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("update MyModel")
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_update_wrong_id(self):
         """Tests that appropriate error is shown when destroy is
         called with an id that doesn't exist"""
-        err_message = "** no instance found **\n"
+        err_message = "** no instance found **"
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("update BaseModel 121212")
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_update_no_attr_name(self):
         """Tests that appropriate error is shown when update is
@@ -459,11 +483,12 @@ class TestUpdateCommandError(unittest.TestCase):
         from models.base_model import BaseModel
 
         basemodel = BaseModel()
-        err_message = "** attribute name missing **\n"
+        err_message = "** attribute name missing **"
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd(f"update BaseModel {basemodel.id}")
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_update_no_attr_value(self):
         """Tests that appropriate error is shown when update is
@@ -471,11 +496,12 @@ class TestUpdateCommandError(unittest.TestCase):
         from models.base_model import BaseModel
 
         basemodel = BaseModel()
-        err_message = "** value missing **\n"
+        err_message = "** value missing **"
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd(f"update BaseModel {basemodel.id} first_name")
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
 
 class TestAdvancedCreateCommand(unittest.TestCase):
@@ -554,12 +580,13 @@ class TestAdvancedCreateCommandError(unittest.TestCase):
     def test_advanced_create_wrong_class(self):
         """Tests that appropriate error is shown when create is
         called with a class that doesn't exist"""
-        err_message = "** class doesn't exist **\n"
+        err_message = "** class doesn't exist **"
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd("MyModel.create()")
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
 
 class TestAdvancedAllCommand(unittest.TestCase):
@@ -577,12 +604,13 @@ class TestAdvancedAllCommand(unittest.TestCase):
                 obj_list.append(obj.__str__())
             else:
                 continue
-        str_obj_list = str(obj_list) + "\n"
+        str_obj_list = str(obj_list)
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd("BaseModel.all()")
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(str_obj_list, test)
+            check = test.replace("\n", "")
+            self.assertEqual(str_obj_list, check)
 
     def test_advanced_all_place(self):
         """Tests that all works for Place"""
@@ -596,12 +624,13 @@ class TestAdvancedAllCommand(unittest.TestCase):
                 obj_list.append(obj.__str__())
             else:
                 continue
-        str_obj_list = str(obj_list) + "\n"
+        str_obj_list = str(obj_list)
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd("Place.all()")
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(str_obj_list, test)
+            check = test.replace("\n", "")
+            self.assertEqual(str_obj_list, check)
 
     def test_advanced_all_state(self):
         """Tests that all works for State"""
@@ -615,12 +644,13 @@ class TestAdvancedAllCommand(unittest.TestCase):
                 obj_list.append(obj.__str__())
             else:
                 continue
-        str_obj_list = str(obj_list) + "\n"
+        str_obj_list = str(obj_list)
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd("State.all()")
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(str_obj_list, test)
+            check = test.replace("\n", "")
+            self.assertEqual(str_obj_list, check)
 
     def test_advanced_all_amenity(self):
         """Tests that all works for Amenity"""
@@ -634,26 +664,28 @@ class TestAdvancedAllCommand(unittest.TestCase):
                 obj_list.append(obj.__str__())
             else:
                 continue
-        str_obj_list = str(obj_list) + "\n"
+        str_obj_list = str(obj_list)
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd("Amenity.all()")
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(str_obj_list, test)
+            check = test.replace("\n", "")
+            self.assertEqual(str_obj_list, check)
 
 
 class TestAdvancedAllCommandError(unittest.TestCase):
     """Tests the all command of the console with faulty input"""
 
-    def test_all_wrong_class(self):
+    def test_advanced_all_wrong_class(self):
         """Tests that appropriate error is shown when all is
         called with a class that doesn't exist"""
-        err_message = "** class doesn't exist **\n"
+        err_message = "** class doesn't exist **"
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd("MyModel.all()")
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
 
 class TestCountCommand(unittest.TestCase):
@@ -674,8 +706,9 @@ class TestCountCommand(unittest.TestCase):
             line = HBNBCommand().precmd("BaseModel.count()")
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            count = str(obj_count) + "\n"
-            self.assertEqual(count, test)
+            check = test.replace("\n", "")
+            count = str(obj_count)
+            self.assertEqual(count, check)
 
     def test_count_state(self):
         """Tests that count works for State"""
@@ -692,8 +725,9 @@ class TestCountCommand(unittest.TestCase):
             line = HBNBCommand().precmd("State.count()")
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            count = str(obj_count) + "\n"
-            self.assertEqual(count, test)
+            check = test.replace("\n", "")
+            count = str(obj_count)
+            self.assertEqual(count, check)
 
     def test_count_amenity(self):
         """Tests that count works for Amenity"""
@@ -710,8 +744,9 @@ class TestCountCommand(unittest.TestCase):
             line = HBNBCommand().precmd("Amenity.count()")
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            count = str(obj_count) + "\n"
-            self.assertEqual(count, test)
+            check = test.replace("\n", "")
+            count = str(obj_count)
+            self.assertEqual(count, check)
 
 
 class TestCountCommandError(unittest.TestCase):
@@ -720,12 +755,13 @@ class TestCountCommandError(unittest.TestCase):
     def test_count_wrong_class(self):
         """Tests that appropriate error is shown when count is
         called with a class that doesn't exist"""
-        err_message = "** class doesn't exist **\n"
+        err_message = "** class doesn't exist **"
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd("MyModel.count()")
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
 
 class TestAdvancedShowCommand(unittest.TestCase):
@@ -737,36 +773,39 @@ class TestAdvancedShowCommand(unittest.TestCase):
 
         basemodel = BaseModel()
         expected = f"[{BaseModel.__name__}] ({basemodel.id})\
- {basemodel.__dict__}" + "\n"
+ {basemodel.__dict__}"
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd(f'BaseModel.show("{basemodel.id}")')
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(test, expected)
+            check = test.replace("\n", "")
+            self.assertEqual(check, expected)
 
     def test_advanced_show_user(self):
         """Tests that show works for BaseModel instance"""
         from models.user import User
 
         user = User()
-        expected = f"[{User.__name__}] ({user.id}) {user.__dict__}" + "\n"
+        expected = f"[{User.__name__}] ({user.id}) {user.__dict__}"
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd(f'User.show("{user.id}")')
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(test, expected)
+            check = test.replace("\n", "")
+            self.assertEqual(check, expected)
 
     def test_advanced_show_city(self):
         """Tests that show works for City instance"""
         from models.city import City
 
         city = City()
-        expected = f"[{City.__name__}] ({city.id}) {city.__dict__}" + "\n"
+        expected = f"[{City.__name__}] ({city.id}) {city.__dict__}"
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd(f'City.show("{city.id}")')
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(test, expected)
+            check = test.replace("\n", "")
+            self.assertEqual(check, expected)
 
 
 class TestAdvancedShowCommandError(unittest.TestCase):
@@ -778,42 +817,46 @@ class TestAdvancedShowCommandError(unittest.TestCase):
         from models.city import City
 
         city = City()
-        err_message = "** class name missing **\n"
+        err_message = "** class name missing **"
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd(f".show({city.id})")
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_advanced_show_no_id(self):
         """Tests that appropriate error is shown when show is
         called with only the class"""
-        err_message = "** instance id missing **\n"
+        err_message = "** instance id missing **"
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd("City.show()")
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_advanced_show_wrong_class(self):
         """Tests that appropriate error is shown when show is
         called with a class that doesn't exist"""
-        err_message = "** class doesn't exist **\n"
+        err_message = "** class doesn't exist **"
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd("MyModel.show()")
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_advanced_show_wrong_id(self):
         """Tests that appropriate error is shown when show is
         called with an id that doesn't exist"""
-        err_message = "** no instance found **\n"
+        err_message = "** no instance found **"
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd('BaseModel.show("121212")')
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
 
 class TestAdvancedDestroyCommand(unittest.TestCase):
@@ -869,52 +912,57 @@ class TestAdvancedDestroyCommandError(unittest.TestCase):
         from models import storage
 
         review = Review()
-        err_message = "** class name missing **\n"
+        err_message = "** class name missing **"
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd(f".destroy({review.id})")
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_advanced_destroy_no_id(self):
         """Tests that appropriate error is shown when destroy is
         called with only the class"""
-        err_message = "** instance id missing **\n"
+        err_message = "** instance id missing **"
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd("BaseModel.destroy()")
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_advanced_destroy_wrong_class(self):
         """Tests that appropriate error is shown when destroy is
         called with a class that doesn't exist"""
-        err_message = "** class doesn't exist **\n"
+        err_message = "** class doesn't exist **"
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd("MyModel.destroy()")
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_advanced_destroy_wrong_id(self):
         """Tests that appropriate error is shown when destroy is
         called with an id that doesn't exist"""
-        err_message = "** no instance found **\n"
+        err_message = "** no instance found **"
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd('BaseModel.destroy("121212")')
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_advanced_destroy_wrong_class_with_id(self):
         """Tests that appropriate error is shown when destroy is
         called with a class that doesn't exist even when id is present"""
-        err_message = "** class doesn't exist **\n"
+        err_message = "** class doesn't exist **"
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd("MyModel.destroy(121212)")
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
 
 class TestAdvancedUpdateCommand(unittest.TestCase):
@@ -973,32 +1021,35 @@ class TestAdvancedUpdateCommandError(unittest.TestCase):
     def test_advanced_update_no_id(self):
         """Tests that appropriate error is shown when update is
         called with only the class"""
-        err_message = "** instance id missing **\n"
+        err_message = "** instance id missing **"
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd("BaseModel.update()")
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_advanced_update_wrong_class(self):
         """Tests that appropriate error is shown when update is
         called with a class that doesn't exist"""
-        err_message = "** class doesn't exist **\n"
+        err_message = "** class doesn't exist **"
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd("MyModel.update()")
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_advanced_update_wrong_id(self):
         """Tests that appropriate error is shown when destroy is
         called with an id that doesn't exist"""
-        err_message = "** no instance found **\n"
+        err_message = "** no instance found **"
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd('BaseModel.update("1212121")')
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_advanced_update_no_attr_name(self):
         """Tests that appropriate error is shown when update is
@@ -1006,12 +1057,13 @@ class TestAdvancedUpdateCommandError(unittest.TestCase):
         from models.base_model import BaseModel
 
         basemodel = BaseModel()
-        err_message = "** attribute name missing **\n"
+        err_message = "** attribute name missing **"
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd(f'BaseModel.update("{basemodel.id}")')
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_advanced_update_no_attr_value(self):
         """Tests that appropriate error is shown when update is
@@ -1019,32 +1071,35 @@ class TestAdvancedUpdateCommandError(unittest.TestCase):
         from models.base_model import BaseModel
 
         basemodel = BaseModel()
-        err_message = "** value missing **\n"
+        err_message = "** value missing **"
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd(f'BaseModel.update("{basemodel.id}",\
  \'first_name\')')
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_advanced_update_basemodel_with_dict_wrong_id(self):
         """Tests that appropriate error is shown when destroy is
         called with an id that doesn't exist"""
-        err_message = "** no instance found **\n"
+        err_message = "** no instance found **"
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd("BaseModel.update(121212,\
  {'first_name': \"Betty\", 'last_name': \"Bar\"})")
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)
 
     def test_advanced_update_basemodel_with_dict_wrong_class(self):
         """Tests that appropriate error is shown when destroy is
         called with a class that doesn't exist"""
-        err_message = "** class doesn't exist **\n"
+        err_message = "** class doesn't exist **"
         with patch('sys.stdout', new=StringIO()) as f:
             line = HBNBCommand().precmd("MyModel.update(121212,\
  {'first_name': \"Betty\", 'last_name': \"Bar\"})")
             HBNBCommand().onecmd(line)
             test = f.getvalue()
-            self.assertEqual(test, err_message)
+            check = test.replace("\n", "")
+            self.assertEqual(check, err_message)

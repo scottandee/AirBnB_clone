@@ -5,6 +5,7 @@ This class contains methods for handling and saving
 objects and also their coonversion into JSON
 """
 
+
 import json
 import os
 
