@@ -11,6 +11,7 @@ from models.review import Review
 from models.place import Place
 from models.user import User
 from models import storage
+from models.engine.file_storage import FileStorage
 from datetime import datetime
 import json
 import os
@@ -183,8 +184,35 @@ class TestSave(unittest.TestCase):
         objs_json = json.loads(string)
         self.assertTrue(key in objs_json)
 
+    def test_save_method(self):
+        """This tests that the save() method properly converts the __objects
+        """
+        new_storage = FileStorage()
+        model = BaseModel()
+        new_storage.new(model)
+        init_all = new_storage.all()
+        new_storage.save()
+        key = f"{type(model).__name__}.{model.id}"
+        with open("file.json", "r") as f:
+            string = f.read()
+        objs_json = json.loads(string)
+        self.assertTrue(key in objs_json)
+
 class TestReload(unittest.TestCase):
     """This tests the reload() instance method of the FileStorage Class"""
+    def test_file_path_does_not_exist(self):
+        """This tests that nothing is reloaded if file path does
+        not esist"""
+
+        os.remove("file.json")
+        model = BaseModel()
+        all_objs = storage.all()
+        storage.save()
+        os.remove("file.json")
+        new_all = storage.all()
+        storage.reload()
+        self.assertEqual(os.path.exists("file.json"), False)
+        self.assertTrue(all_objs, new_all)
 
     def test_json_conversion_to_dict(self):
         """This tests that the JSON file is properly converted back
@@ -198,8 +226,7 @@ class TestReload(unittest.TestCase):
         my_user.email = "airbnb@mail.com"
         my_user.password = "root"
 
-        my_user.save()
-        model.save()
+        storage.save()
         storage.reload()
         all_objs = storage.all()
         self.assertTrue(type(all_objs) is dict)
