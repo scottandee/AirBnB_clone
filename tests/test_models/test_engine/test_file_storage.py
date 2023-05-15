@@ -200,6 +200,7 @@ class TestReload(unittest.TestCase):
 
         my_user.save()
         model.save()
+        storage.reload()
         all_objs = storage.all()
         self.assertTrue(type(all_objs) is dict)
         for key in all_objs.keys():
