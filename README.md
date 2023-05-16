@@ -5,7 +5,7 @@
 
 ## Description
 
-This is the first part in the series of four Airbnb Clones project series at ALX Africa.The goal is to build the backend of the project and a console for a client-side. Data is converted to json and stored in a file for whenever it is needed. This project was developed with `python object oriented programming`
+This is the first part in the series of four ``Airbnb Clones`` project series at ALX Africa.The goal is to build the backend of the project and a console for a client-side. Data is converted to json and stored in a file for whenever it is needed. This project was developed with `python object oriented programming`
 
 ## Description of the Console
 The console is just like the bash shell, the only difference being that it can only perform limited actions and are restricted to the use of managing data/objects. This will serve as the client-side for users. It was built with the help of the python ```cmd module```
