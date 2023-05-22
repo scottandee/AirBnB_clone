@@ -37,7 +37,7 @@ div.locations {
     border-right: 1px solid #DDDDDD;
 }
 
-h3 {
+.locations h3, .amenities h3 {
     font-weight: 600;
     line-height: 0;
     margin-left: 40px;
@@ -48,18 +48,20 @@ h4 {
     line-height: 0;
     margin-left: 40px;
 }
-h2 {
+ul.popover li ul li h2 {
     font-size: 16px;
     margin-left: 20px;
     line-height: 0px;
 }
-li {
+.filters .amenities li {
     margin-bottom: 4px;
 }
 ul {
     list-style-type: none;
     box-sizing: border-box;
     padding: 0px;
+}
+ul.popover li ul {
     padding-bottom: 10px;
 }
 .popover li h4 {
